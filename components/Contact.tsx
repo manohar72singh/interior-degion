@@ -14,7 +14,7 @@ const DETAILS = [
   {
     icon: Mail,
     label: "Direct Inquiries",
-    value: "hello@housenandco.com",
+    value: "info@housenandco.com",
   },
   {
     icon: Phone,

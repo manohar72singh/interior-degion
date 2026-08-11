@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import path from "path";
+
+// Logo is embedded via a Content-ID attachment so it renders reliably
+// across email clients (Outlook strips/blocks base64 <img> data URIs).
+const LOGO_CID = "housenandco-logo";
+const logoPath = path.join(process.cwd(), "public", "images", "logo.jpeg");
 
 // ─── Brand HTML Email Template Helper ──────────────────────────────────────
 function ownerEmailHtml({
@@ -27,6 +33,7 @@ function ownerEmailHtml({
           <!-- Header -->
           <tr>
             <td style="background:#3A322C;padding:36px 48px;text-align:center;">
+              <img src="cid:${LOGO_CID}" width="48" height="48" alt="Housen & Co." style="display:block;margin:0 auto 14px auto;border-radius:4px;" />
               <div style="font-family:'Georgia',serif;font-size:22px;letter-spacing:0.2em;color:#E5DFD3;font-weight:400;">HOUSEN &amp; CO.</div>
               <div style="font-size:10px;letter-spacing:0.4em;color:#A67C3D;text-transform:uppercase;margin-top:6px;">Interior &amp; Architecture Studio</div>
             </td>
@@ -91,13 +98,10 @@ function clientAutoReplyHtml({ name }: { name: string }) {
     <tr>
       <td align="center">
         <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#FAF8F4;border-radius:4px;overflow:hidden;box-shadow:0 4px 24px rgba(58,50,44,0.08);">
-          <!-- Header with logo area -->
+          <!-- Header with logo -->
           <tr>
             <td style="background:#3A322C;padding:40px 48px 36px 48px;text-align:center;">
-              <!-- Monogram logo in HTML -->
-              <div style="display:inline-block;border:1.5px solid #A67C3D;padding:10px 18px;margin-bottom:16px;">
-                <span style="font-family:'Georgia',serif;font-size:18px;letter-spacing:0.35em;color:#E5DFD3;">H&amp;C</span>
-              </div>
+              <img src="cid:${LOGO_CID}" width="56" height="56" alt="Housen & Co." style="display:block;margin:0 auto 16px auto;border-radius:4px;" />
               <div style="font-family:'Georgia',serif;font-size:22px;letter-spacing:0.2em;color:#E5DFD3;font-weight:400;">HOUSEN &amp; CO.</div>
               <div style="font-size:10px;letter-spacing:0.4em;color:#A67C3D;text-transform:uppercase;margin-top:6px;">Interior &amp; Architecture Studio</div>
             </td>
@@ -140,7 +144,7 @@ function clientAutoReplyHtml({ name }: { name: string }) {
                 <tr>
                   <td style="text-align:center;">
                     <div style="font-size:10px;letter-spacing:0.25em;color:#A67C3D;text-transform:uppercase;margin-bottom:6px;">Housen &amp; Co. · 412 Bellwood Lane, Charleston, SC</div>
-                    <div style="font-size:10px;color:#E5DFD3;opacity:.5;">hello@housenandco.com &nbsp;·&nbsp; +1 (843) 555-0192</div>
+                    <div style="font-size:10px;color:#E5DFD3;opacity:.5;">info@housenandco.com &nbsp;·&nbsp; +1 (843) 555-0192</div>
                   </td>
                 </tr>
               </table>
@@ -165,12 +169,20 @@ export async function POST(req: NextRequest) {
     }
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: process.env.SMTP_HOST || "smtp.office365.com",
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: process.env.SMTP_SECURE === "true",
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
     });
+
+    const logoAttachment = {
+      filename: "logo.jpeg",
+      path: logoPath,
+      cid: LOGO_CID,
+    };
 
     // 1. Email to studio owner
     await transporter.sendMail({
@@ -178,6 +190,7 @@ export async function POST(req: NextRequest) {
       to: process.env.INQUIRY_TO,
       subject: `New Inquiry from ${name} — Housen & Co.`,
       html: ownerEmailHtml({ name, email, message }),
+      attachments: [logoAttachment],
     });
 
     // 2. Auto-reply to client
@@ -186,6 +199,7 @@ export async function POST(req: NextRequest) {
       to: email,
       subject: `Thank you for reaching out — Housen & Co.`,
       html: clientAutoReplyHtml({ name }),
+      attachments: [logoAttachment],
     });
 
     return NextResponse.json({ success: true });
