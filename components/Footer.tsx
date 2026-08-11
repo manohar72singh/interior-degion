@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { ExternalLink, Facebook, Instagram, Twitter } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -133,6 +133,20 @@ export default function Footer() {
               </a>
             ))}
           </div>
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <a
+            href="https://quantyrotechnologies.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-beige/15 bg-charcoal/40 px-4 py-2 text-[0.65rem] font-medium text-beige/60 transition-colors hover:border-bronze/40 hover:text-beige"
+          >
+            <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
+            Designed &amp; Developed by{" "}
+            <span className="font-bold text-beige">Quantyro Technologies</span>
+            <ExternalLink className="h-3 w-3 shrink-0" />
+          </a>
         </div>
       </div>
     </footer>
