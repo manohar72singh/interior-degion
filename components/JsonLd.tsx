@@ -13,6 +13,11 @@ export default function JsonLd() {
         "priceRange": "$$$$",
         "telephone": "+91-9599775274",
         "email": "info@housenandco.com",
+        "sameAs": [
+          "https://www.instagram.com/housenandco",
+          "https://www.facebook.com/share/19pcPbgxjL/?mibextid=wwXIfr",
+          "https://share.google/NivZhSzz9rH4LMm4l"
+        ],
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Plot No 17, Pine Wood Enclave Sec-2, Wave City",
