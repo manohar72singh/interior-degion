@@ -452,6 +452,52 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Studio Map Location ── */}
+      <section className="border-t border-charcoal/10 bg-white py-16 md:py-24">
+        <div className="container">
+          <div className="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-bronze block">
+                Studio Location
+              </span>
+              <h2 className="mt-2 font-serif text-3xl sm:text-4xl font-medium text-charcoal">
+                Visit Our Wave City Studio
+              </h2>
+              <p className="mt-2 text-xs sm:text-sm text-charcoal/70 max-w-xl">
+                Plot No 17, Pine Wood Enclave Sec-2, Wave City, Ghaziabad 201015. Easy connectivity via NH-24 / Delhi-Meerut Expressway.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href="https://share.google/NivZhSzz9rH4LMm4l"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-bronze px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-beige transition-all hover:bg-charcoal shadow-sm"
+              >
+                <MapPin className="h-4 w-4" />
+                Get Directions on Google Maps
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden border border-charcoal/15 bg-charcoal/5 shadow-lg">
+            <iframe
+              title="Housen & Co. Studio Location - Wave City Ghaziabad"
+              src="https://maps.google.com/maps?q=Plot+No+17,+Pine+Wood+Enclave+Sec-2,+Wave+City,+Ghaziabad+201015&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full h-[380px] md:h-[480px] filter contrast-[1.05]"
+            />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

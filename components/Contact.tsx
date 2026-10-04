@@ -245,7 +245,18 @@ export default function Contact() {
           )}
         </motion.form>
 
-        <div className="mt-12 text-center">
+        <div className="mt-12 text-center lg:col-span-2 flex flex-wrap items-center justify-center gap-6">
+          <a
+            href="https://share.google/NivZhSzz9rH4LMm4l"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-beige/80 hover:text-bronze transition-colors"
+          >
+            <MapPin className="h-3.5 w-3.5 text-bronze" />
+            Studio Map &amp; Directions
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+          <span className="text-beige/20 hidden sm:inline">•</span>
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-bronze hover:text-beige transition-colors"
