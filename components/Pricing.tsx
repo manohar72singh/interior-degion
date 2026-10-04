@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -130,18 +131,29 @@ export default function Pricing() {
                 ))}
               </ul>
 
-              <Button
+              <Link
+                href={`/contact?plan=${encodeURIComponent(plan.name)}`}
                 className={cn(
-                  "mt-8 w-full h-12 uppercase tracking-[0.2em] text-xs transition-all duration-500",
+                  "mt-8 w-full h-12 inline-flex items-center justify-center uppercase tracking-[0.2em] text-xs transition-all duration-500",
                   plan.highlighted
                     ? "bg-bronze text-beige hover:bg-beige hover:text-charcoal"
                     : "bg-charcoal text-beige hover:bg-bronze hover:text-beige"
                 )}
               >
                 Inquire Now
-              </Button>
+              </Link>
             </motion.div>
           ))}
+        </div>
+
+        <div className="mt-14 text-center">
+          <Link
+            href="/pricing"
+            className="inline-flex items-center gap-3 bg-charcoal text-beige px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-bronze shadow-md"
+          >
+            Compare All Packages &amp; Full Scope
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </section>

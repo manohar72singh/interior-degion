@@ -45,25 +45,24 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-espresso pt-12 pb-8 text-beige relative overflow-hidden">
+    <footer className="bg-espresso pt-20 pb-12 text-beige relative overflow-hidden border-t border-beige/10">
       <div className="container relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 1, ease: [0.215, 0.61, 0.355, 1] }}
-          className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end border-b border-beige/10 pb-12"
+          className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end border-b border-beige/10 pb-16"
         >
           <div className="max-w-xl">
-            <span className="text-xs font-medium uppercase tracking-[0.4em] text-bronze">
+            <span className="text-xs font-semibold uppercase tracking-[0.4em] text-bronze">
               Stay Inspired
             </span>
-            <h2 className="mt-6 font-serif text-4xl font-medium leading-tight sm:text-5xl">
-              Join Our Newsletter
+            <h2 className="mt-4 font-serif text-3xl sm:text-4xl md:text-5xl font-medium leading-tight">
+              Join The Studio Newsletter
             </h2>
-            <p className="mt-6 text-sm leading-relaxed text-beige/60">
-              Studio news, project reveals, and design notes — delivered
-              occasionally, never spam.
+            <p className="mt-4 text-xs sm:text-sm leading-relaxed text-beige/70">
+              Studio journal essays, private project reveals, and tactile materiality notes — delivered monthly, never spam.
             </p>
           </div>
 
@@ -101,18 +100,23 @@ export default function Footer() {
           transition={{ duration: 1, delay: 0.2 }}
           className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 border-b border-beige/10 pb-12"
         >
-          {['Home', 'Philosophy', 'About', 'Process', 'Services', 'Projects', 'FAQ', 'Contact'].map((item) => {
-            const href = item === 'About' ? '/about' : `/#${item.toLowerCase()}`;
-            return (
-              <Link
-                key={item}
-                href={href}
-                className="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-beige/60 transition-colors hover:text-bronze"
-              >
-                {item}
-              </Link>
-            );
-          })}
+          {[
+            { label: "Home", href: "/" },
+            { label: "About", href: "/about" },
+            { label: "Services", href: "/services" },
+            { label: "Projects", href: "/projects" },
+            { label: "Pricing", href: "/pricing" },
+            { label: "Journal", href: "/journal" },
+            { label: "Inquiry", href: "/contact" },
+          ].map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-beige/60 transition-colors hover:text-bronze"
+            >
+              {item.label}
+            </Link>
+          ))}
         </motion.div>
 
 

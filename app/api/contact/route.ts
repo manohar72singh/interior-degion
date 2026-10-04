@@ -73,7 +73,7 @@ function ownerEmailHtml({
           <!-- Footer -->
           <tr>
             <td style="background:#3A322C;padding:20px 48px;text-align:center;">
-              <div style="font-size:10px;letter-spacing:0.25em;color:#A67C3D;text-transform:uppercase;">Housen &amp; Co. Studio · Charleston, SC</div>
+              <div style="font-size:10px;letter-spacing:0.25em;color:#A67C3D;text-transform:uppercase;">Housen &amp; Co. Studio · Wave City, Ghaziabad</div>
             </td>
           </tr>
         </table>
@@ -143,8 +143,8 @@ function clientAutoReplyHtml({ name }: { name: string }) {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="text-align:center;">
-                    <div style="font-size:10px;letter-spacing:0.25em;color:#A67C3D;text-transform:uppercase;margin-bottom:6px;">Housen &amp; Co. · 412 Bellwood Lane, Charleston, SC</div>
-                    <div style="font-size:10px;color:#E5DFD3;opacity:.5;">info@housenandco.com &nbsp;·&nbsp; +1 (843) 555-0192</div>
+                    <div style="font-size:10px;letter-spacing:0.25em;color:#A67C3D;text-transform:uppercase;margin-bottom:6px;">Housen &amp; Co. · Plot No 17, Pine Wood Enclave Sec-2, Wave City, Ghaziabad</div>
+                    <div style="font-size:10px;color:#E5DFD3;opacity:.5;">info@housenandco.com &nbsp;·&nbsp; +91 9599775274</div>
                   </td>
                 </tr>
               </table>

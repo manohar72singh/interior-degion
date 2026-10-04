@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   PenTool,
@@ -173,6 +174,16 @@ export default function Services() {
               </motion.div>
             );
           })}
+        </div>
+
+        <div className="mt-14 text-center">
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-3 bg-charcoal text-beige px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-bronze shadow-md"
+          >
+            Explore All Services &amp; Methodology
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </div>
 

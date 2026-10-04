@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Check, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Check, Send, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const DETAILS = [
   {
     icon: MapPin,
-    label: "Studios",
-    value: "412 Bellwood Lane, Charleston, SC 29401 | 540 Madison Ave, New York, NY",
+    label: "Studio Address",
+    value: "Plot No 17, Pine Wood Enclave Sec-2, Wave City, Ghaziabad 201015",
   },
   {
     icon: Mail,
@@ -19,7 +20,7 @@ const DETAILS = [
   {
     icon: Phone,
     label: "Telephone",
-    value: "+1 (843) 555-0192",
+    value: "+91 9599775274",
   },
 ];
 
@@ -226,7 +227,7 @@ export default function Contact() {
               "Submitting Inquiry…"
             ) : (
               <>
-                Submit Consultation Request
+                Submit Project Inquiry
                 <Send className="h-4 w-4" />
               </>
             )}
@@ -243,6 +244,16 @@ export default function Contact() {
             </p>
           )}
         </motion.form>
+
+        <div className="mt-12 text-center">
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-bronze hover:text-beige transition-colors"
+          >
+            Visit Our Studios &amp; Submit Direct Inquiry
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
       </div>
     </section>
   );

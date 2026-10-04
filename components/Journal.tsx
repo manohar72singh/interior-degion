@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -77,27 +78,25 @@ export default function Journal() {
               <p className="mt-3 text-sm leading-relaxed text-charcoal/70">
                 {post.excerpt}
               </p>
-              <a
-                href="#"
+              <Link
+                href="/journal"
                 className="group/link mt-4 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-bronze"
               >
-                Read more
+                Read article
                 <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/link:translate-x-1" />
-              </a>
+              </Link>
             </motion.article>
           ))}
         </div>
 
-        <div className="mt-14 flex justify-center gap-2">
-          {POSTS.map((post, index) => (
-            <span
-              key={post.title}
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-300",
-                index === active ? "w-6 bg-bronze" : "w-1.5 bg-charcoal/20"
-              )}
-            />
-          ))}
+        <div className="mt-14 text-center">
+          <Link
+            href="/journal"
+            className="inline-flex items-center gap-3 bg-charcoal text-beige px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-bronze shadow-md"
+          >
+            Read All Journal Articles &amp; Essays
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </section>

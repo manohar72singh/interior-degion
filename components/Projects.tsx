@@ -2,9 +2,11 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, X, Maximize2, MapPin, Calendar, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ThreeDTiltCard from "@/components/ThreeDTiltCard";
 
 interface ProjectItem {
   id: string;
@@ -186,39 +188,54 @@ export default function Projects() {
           className="scrollbar-hide mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6"
         >
           {filteredProjects.map((project) => (
-            <div
+            <ThreeDTiltCard
               key={project.id}
-              onClick={() => setActiveModalProject(project)}
-              className="group relative aspect-[3/4] w-[80%] flex-none snap-start overflow-hidden rounded-none shadow-xl cursor-pointer sm:w-[42%] lg:w-[30%]"
+              className="w-[80%] flex-none snap-start sm:w-[42%] lg:w-[30%]"
+              tiltIntensity={12}
             >
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                sizes="(min-width: 1024px) 30vw, (min-width: 640px) 42vw, 80vw"
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-espresso/85 via-espresso/20 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-95" />
-              
-              <div className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-beige/20 backdrop-blur-md text-beige opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <Maximize2 className="h-4 w-4" />
-              </div>
+              <div
+                onClick={() => setActiveModalProject(project)}
+                className="group relative aspect-[3/4] w-full h-full overflow-hidden rounded-none shadow-xl cursor-pointer"
+              >
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 42vw, 80vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-espresso/85 via-espresso/20 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-95" />
+                
+                <div className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-beige/20 backdrop-blur-md text-beige opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <Maximize2 className="h-4 w-4" />
+                </div>
 
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-bronze/90 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-beige">
-                  {project.category}
-                </span>
-                <p className="mt-2 font-serif text-2xl text-beige font-medium">
-                  {project.title}
-                </p>
-                <p className="mt-1 text-xs text-beige/70 font-light flex items-center gap-1">
-                  <MapPin className="h-3 w-3 text-bronze" />
-                  {project.location} • {project.year}
-                </p>
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <span className="inline-block bg-bronze/90 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-beige">
+                    {project.category}
+                  </span>
+                  <p className="mt-2 font-serif text-2xl text-beige font-medium">
+                    {project.title}
+                  </p>
+                  <p className="mt-1 text-xs text-beige/70 font-light flex items-center gap-1">
+                    <MapPin className="h-3 w-3 text-bronze" />
+                    {project.location} • {project.year}
+                  </p>
+                </div>
               </div>
-            </div>
+            </ThreeDTiltCard>
           ))}
         </motion.div>
+
+        <div className="mt-14 text-center">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-3 bg-charcoal text-beige px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-bronze shadow-md"
+          >
+            View Full Portfolio &amp; Case Studies
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
       </div>
 
       {/* Project Lightbox Detail Modal */}

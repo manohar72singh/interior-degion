@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Compass, Layers, ShieldCheck } from "lucide-react";
 
@@ -55,14 +56,21 @@ export default function Philosophy() {
               considered, tactile approach to materials — resulting in homes
               that feel inevitable, never imposed.
             </p>
-            <div className="mt-8 h-px w-16 bg-charcoal/20" />
-            <a
-              href="#projects"
-              className="group mt-8 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-charcoal hover:text-bronze transition-colors"
-            >
-              Explore Our Portfolio
-              <ArrowUpRight className="h-4 w-4 text-bronze transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </a>
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              <Link
+                href="/about"
+                className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-bronze hover:text-charcoal transition-colors"
+              >
+                Learn Our Story
+                <ArrowUpRight className="h-4 w-4 text-bronze transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+              <Link
+                href="/projects"
+                className="text-xs font-semibold uppercase tracking-[0.25em] text-charcoal/70 hover:text-bronze transition-colors"
+              >
+                Explore Works
+              </Link>
+            </div>
           </motion.div>
 
           {/* Editorial Image Card */}
