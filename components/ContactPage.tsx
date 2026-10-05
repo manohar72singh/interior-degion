@@ -17,6 +17,9 @@ import {
   Building,
   Instagram,
   Facebook,
+  Compass,
+  Car,
+  Navigation,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -454,18 +457,30 @@ export default function ContactPage() {
       </section>
 
       {/* ── Studio Map Location ── */}
-      <section className="border-t border-charcoal/10 bg-white py-16 md:py-24">
+      <section className="border-t border-charcoal/10 bg-white py-16 md:py-24 overflow-hidden">
         <div className="container">
-          <div className="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6"
+          >
             <div>
-              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-bronze block">
-                Studio Location
-              </span>
-              <h2 className="mt-2 font-serif text-3xl sm:text-4xl font-medium text-charcoal">
-                Visit Our Wave City Studio
+              <div className="flex items-center gap-2 mb-2">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-bronze opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-bronze" />
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-[0.3em] text-bronze">
+                  Studio Headquarters &amp; Atelier
+                </span>
+              </div>
+              <h2 className="font-serif text-3xl sm:text-4xl font-medium text-charcoal">
+                Visit Housen &amp; Co. Studio
               </h2>
               <p className="mt-2 text-xs sm:text-sm text-charcoal/70 max-w-xl">
-                Plot No 17, Pine Wood Enclave Sec-2, Wave City, Ghaziabad 201015. Easy connectivity via NH-24 / Delhi-Meerut Expressway.
+                Plot No 17, Pine Wood Enclave Sec-2, Wave City, Ghaziabad 201015. Located on the Delhi-NCR expressway corridor with dedicated client parking.
               </p>
             </div>
 
@@ -474,27 +489,128 @@ export default function ContactPage() {
                 href="https://share.google/NivZhSzz9rH4LMm4l"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-bronze px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-beige transition-all hover:bg-charcoal shadow-sm"
+                className="group relative overflow-hidden inline-flex items-center gap-2 bg-bronze px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-beige transition-all hover:bg-charcoal shadow-sm hover:shadow-lg active:scale-95"
               >
-                <MapPin className="h-4 w-4" />
-                Get Directions on Google Maps
-                <ArrowUpRight className="h-3.5 w-3.5" />
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                <MapPin className="h-4 w-4 transition-transform group-hover:scale-110" />
+                <span>Open Directions in Google Maps</span>
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="relative overflow-hidden border border-charcoal/15 bg-charcoal/5 shadow-lg">
+          {/* Interactive Map Box with Floating Location Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98, y: 15 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="relative overflow-hidden border border-charcoal/15 bg-charcoal/5 shadow-2xl group"
+          >
+            {/* Floating Studio Pin Card on Desktop */}
+            <motion.div
+              initial={{ opacity: 0, x: -25, y: 10 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -3, transition: { duration: 0.2 } }}
+              className="absolute top-4 left-4 z-10 max-w-xs bg-charcoal/95 backdrop-blur-md text-beige p-5 border border-bronze/40 shadow-2xl hidden sm:block"
+            >
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                  </span>
+                  <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-bronze">
+                    Studio Pin Location
+                  </span>
+                </div>
+                <span className="text-[0.6rem] px-2 py-0.5 bg-emerald-950/80 text-emerald-300 border border-emerald-500/30 uppercase tracking-widest font-mono">
+                  Open
+                </span>
+              </div>
+              <h4 className="font-serif text-base font-medium text-beige">
+                Housen &amp; Co. Pvt. Ltd.
+              </h4>
+              <p className="mt-2 text-[0.7rem] text-beige/80 leading-relaxed">
+                Plot No 17, Pine Wood Enclave Sec-2, Wave City, Ghaziabad 201015
+              </p>
+              <div className="mt-3 pt-3 border-t border-beige/10 flex items-center justify-between text-[0.65rem] text-beige/60">
+                <span>Mon – Sat: 9:30 AM – 7 PM</span>
+                <a
+                  href="tel:+919599775274"
+                  className="text-bronze hover:underline font-semibold"
+                >
+                  +91 9599775274
+                </a>
+              </div>
+            </motion.div>
+
             <iframe
               title="Housen & Co. Studio Location - Wave City Ghaziabad"
-              src="https://maps.google.com/maps?q=Plot+No+17,+Pine+Wood+Enclave+Sec-2,+Wave+City,+Ghaziabad+201015&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=Housen+%26+Co.+Pvt.+Ltd.,+Plot+No+17,+Pine+Wood+Enclave+Sec-2,+Wave+City,+Ghaziabad+201015&t=&z=16&ie=UTF8&iwloc=B&output=embed"
               width="100%"
-              height="450"
+              height="480"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="w-full h-[380px] md:h-[480px] filter contrast-[1.05]"
+              className="w-full h-[400px] md:h-[500px]"
             />
+          </motion.div>
+
+          {/* Location Highlights Grid with Staggered Entrance & Hover Lift */}
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              {
+                icon: Compass,
+                tag: "Landmark Location",
+                title: "Pine Wood Enclave, Sector-2",
+                desc: "Wave City (Hi-Tech Smart City). Well-planned infrastructure with wide access roads.",
+              },
+              {
+                icon: Navigation,
+                tag: "Expressway Access",
+                title: "NH-24 / DME Corridor",
+                desc: "Direct 5-10 min drive from Delhi-Meerut Expressway. Smooth transit from Noida & Delhi.",
+              },
+              {
+                icon: Car,
+                tag: "Studio Consultations",
+                title: "Private Client Parking",
+                desc: "Convenient on-site valet & parking for scheduled architectural consultations.",
+              },
+            ].map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.tag}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.25 + idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                  className="relative group p-6 bg-beige/30 border border-charcoal/10 hover:border-bronze/50 hover:bg-white transition-all shadow-sm hover:shadow-md"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 bg-charcoal/5 group-hover:bg-bronze/10 text-bronze transition-colors">
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <span className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-bronze">
+                      {item.tag}
+                    </span>
+                  </div>
+                  <h5 className="font-serif text-sm font-medium text-charcoal mb-1">
+                    {item.title}
+                  </h5>
+                  <p className="text-xs text-charcoal/70 leading-relaxed">
+                    {item.desc}
+                  </p>
+                  <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-bronze transition-all duration-300 group-hover:w-full" />
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
