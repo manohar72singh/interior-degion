@@ -144,32 +144,44 @@ export default function Services() {
             return (
               <motion.div
                 key={service.title}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 35 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 1, ease: [0.215, 0.61, 0.355, 1], delay: (index % 3) * 0.12 }}
-                className="group relative border-t border-charcoal/15 pt-8 flex flex-col justify-between"
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.9, ease: [0.215, 0.61, 0.355, 1], delay: (index % 3) * 0.12 }}
+                className="group relative border-t border-charcoal/15 pt-8 pb-4 flex flex-col justify-between transition-all duration-500 hover:-translate-y-1.5"
               >
+                {/* Animated Expanding Top Accent Line on Hover */}
+                <div className="absolute top-0 left-0 h-[2px] w-0 bg-bronze transition-all duration-500 ease-out group-hover:w-full" />
+
                 <div className="relative z-10">
-                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full border border-charcoal/15 bg-beige transition-colors duration-500 group-hover:border-bronze group-hover:bg-bronze group-hover:text-beige">
-                    <Icon className="h-5 w-5 text-bronze group-hover:text-beige transition-colors" strokeWidth={1.5} />
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-charcoal/15 bg-beige/60 transition-all duration-500 group-hover:border-bronze group-hover:bg-bronze group-hover:text-beige group-hover:rotate-6 shadow-sm">
+                      <Icon className="h-5 w-5 text-bronze group-hover:text-beige transition-colors duration-300" strokeWidth={1.5} />
+                    </div>
+                    <span className="font-serif text-3xl font-light text-charcoal/15 select-none transition-colors duration-300 group-hover:text-bronze/60">
+                      0{index + 1}
+                    </span>
                   </div>
-                  <h3 className="font-serif text-2xl text-charcoal font-medium">
+
+                  <h3 className="font-serif text-2xl text-charcoal font-medium tracking-wide">
                     {service.title}
                   </h3>
-                  <p className="mt-4 text-sm leading-relaxed text-charcoal/75 font-light">
+                  <p className="mt-4 text-sm leading-relaxed text-charcoal/70 font-light group-hover:text-charcoal/90 transition-colors">
                     {service.description}
                   </p>
                 </div>
 
-                <div className="mt-8 pt-4 border-t border-charcoal/10">
+                <div className="mt-8 pt-4 border-t border-charcoal/10 flex items-center justify-between">
                   <button
                     onClick={() => setActiveService(service)}
-                    className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-bronze hover:text-charcoal transition-colors"
+                    className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-bronze hover:text-charcoal transition-colors group/btn"
                   >
-                    View Scope &amp; Deliverables
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    <span>View Scope</span>
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-1" />
                   </button>
+                  <span className="text-[0.65rem] text-charcoal/50 font-mono uppercase tracking-wider">
+                    {service.timeline}
+                  </span>
                 </div>
               </motion.div>
             );

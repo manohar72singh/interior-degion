@@ -91,67 +91,59 @@ export default function InteractiveRoom3D() {
   };
 
   return (
-    <section className="bg-charcoal text-beige py-20 md:py-28 relative overflow-hidden">
+    <section className="bg-cream text-charcoal py-20 md:py-28 relative overflow-hidden border-t border-charcoal/10">
       {/* Background ambient gradient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-bronze/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-bronze/5 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="container relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-beige/10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-charcoal/10">
           <div>
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.35em] text-bronze">
               <Compass className="h-3.5 w-3.5" />
               Interactive 3D Spatial Study
             </span>
-            <h2 className="mt-3 font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-beige">
+            <h2 className="mt-3 font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-charcoal">
               Experience Room Depth &amp; Lighting
             </h2>
-            <p className="mt-3 text-xs sm:text-sm text-beige/70 max-w-xl">
+            <p className="mt-3 text-xs sm:text-sm text-charcoal/70 max-w-xl">
               Move your cursor across the room to explore layered 3D depth, toggle natural daylight angles, and inspect material specifications.
             </p>
           </div>
 
-          {/* Lighting Mood Controls */}
-          <div className="flex items-center gap-2 bg-espresso/80 p-1.5 border border-beige/20 shadow-inner">
-            <button
-              type="button"
-              onClick={() => setMood("morning")}
-              className={cn(
-                "flex items-center gap-2 px-3.5 py-2 text-xs font-medium uppercase tracking-wider transition-all",
-                mood === "morning"
-                  ? "bg-bronze text-beige shadow-md font-semibold"
-                  : "text-beige/60 hover:text-beige hover:bg-white/5"
-              )}
-            >
-              <Sun className="h-3.5 w-3.5 text-amber-300" />
-              Morning
-            </button>
-            <button
-              type="button"
-              onClick={() => setMood("golden")}
-              className={cn(
-                "flex items-center gap-2 px-3.5 py-2 text-xs font-medium uppercase tracking-wider transition-all",
-                mood === "golden"
-                  ? "bg-bronze text-beige shadow-md font-semibold"
-                  : "text-beige/60 hover:text-beige hover:bg-white/5"
-              )}
-            >
-              <Sunset className="h-3.5 w-3.5 text-orange-400" />
-              Golden Hour
-            </button>
-            <button
-              type="button"
-              onClick={() => setMood("twilight")}
-              className={cn(
-                "flex items-center gap-2 px-3.5 py-2 text-xs font-medium uppercase tracking-wider transition-all",
-                mood === "twilight"
-                  ? "bg-bronze text-beige shadow-md font-semibold"
-                  : "text-beige/60 hover:text-beige hover:bg-white/5"
-              )}
-            >
-              <Moon className="h-3.5 w-3.5 text-beige/80" />
-              Twilight
-            </button>
+          {/* Lighting Mood Controls with Sliding Active Indicator */}
+          <div className="relative flex items-center gap-1 bg-white/90 p-1.5 border border-charcoal/10 shadow-sm backdrop-blur-md">
+            {[
+              { id: "morning", label: "Morning", icon: Sun, color: "text-amber-500" },
+              { id: "golden", label: "Golden Hour", icon: Sunset, color: "text-orange-500" },
+              { id: "twilight", label: "Twilight", icon: Moon, color: "text-indigo-400" },
+            ].map((item) => {
+              const Icon = item.icon;
+              const isCurrent = mood === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setMood(item.id as LightingMood)}
+                  className={cn(
+                    "relative z-10 flex items-center gap-2 px-3.5 py-2 text-xs uppercase tracking-wider transition-colors duration-300",
+                    isCurrent
+                      ? "text-beige font-semibold"
+                      : "text-charcoal/70 hover:text-charcoal font-medium"
+                  )}
+                >
+                  {isCurrent && (
+                    <motion.div
+                      layoutId="activeMoodPill"
+                      className="absolute inset-0 bg-bronze shadow-md -z-10"
+                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    />
+                  )}
+                  <Icon className={cn("h-3.5 w-3.5 transition-transform duration-300", isCurrent ? "text-beige rotate-12" : item.color)} />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -253,7 +245,7 @@ export default function InteractiveRoom3D() {
 
             {/* Layer 5: Floating Depth Badge Indicator */}
             <div
-              className="absolute bottom-6 left-6 z-20 bg-espresso/90 border border-beige/20 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-beige/90 backdrop-blur-md hidden sm:flex items-center gap-2"
+              className="absolute bottom-6 left-6 z-20 bg-white/90 border border-charcoal/15 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-charcoal/80 backdrop-blur-md hidden sm:flex items-center gap-2"
               style={{ transform: "translateZ(50px)" }}
             >
               <Eye className="h-3.5 w-3.5 text-bronze" />
@@ -268,7 +260,7 @@ export default function InteractiveRoom3D() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute bottom-6 right-6 z-30 max-w-xs sm:max-w-sm bg-beige text-charcoal p-5 border border-charcoal/20 shadow-2xl backdrop-blur-md"
+              className="absolute bottom-6 right-6 z-30 max-w-xs sm:max-w-sm bg-white/95 text-charcoal p-5 border border-charcoal/15 shadow-2xl backdrop-blur-md"
             >
               <div className="flex items-center justify-between gap-2 border-b border-charcoal/10 pb-2 mb-2">
                 <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-bronze">

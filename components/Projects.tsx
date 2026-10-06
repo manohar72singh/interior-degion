@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, ArrowRight, X, Maximize2, MapPin, Calendar, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ThreeDTiltCard from "@/components/ThreeDTiltCard";
@@ -89,152 +89,208 @@ const CATEGORIES = ["All", "High-end Homes", "Coastal Villas", "Urban Penthouses
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [activeModalProject, setActiveModalProject] = useState<ProjectItem | null>(null);
-  const scrollerRef = useRef<HTMLDivElement>(null);
+  
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [maxScroll, setMaxScroll] = useState(0);
 
   const filteredProjects = selectedCategory === "All"
     ? PROJECTS
     : PROJECTS.filter(p => p.category === selectedCategory);
 
-  const scroll = (direction: "left" | "right") => {
-    const node = scrollerRef.current;
-    if (!node) return;
-    const amount = node.clientWidth * 0.5;
-    node.scrollBy({
-      left: direction === "left" ? -amount : amount,
+  useEffect(() => {
+    const updateScroll = () => {
+      if (trackRef.current) {
+        const trackWidth = trackRef.current.scrollWidth;
+        const viewWidth = window.innerWidth;
+        setMaxScroll(Math.max(0, trackWidth - viewWidth + 100));
+      }
+    };
+    updateScroll();
+    const timer = setTimeout(updateScroll, 200);
+    window.addEventListener("resize", updateScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", updateScroll);
+    };
+  }, [filteredProjects, selectedCategory]);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  const x = useTransform(scrollYProgress, (v) => -v * maxScroll);
+
+  const scrollByStep = (direction: "left" | "right") => {
+    const step = window.innerHeight * 0.6;
+    window.scrollBy({
+      top: direction === "left" ? -step : step,
       behavior: "smooth",
     });
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (scrollerRef.current && !activeModalProject) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollerRef.current;
-        if (Math.ceil(scrollLeft + clientWidth) >= scrollWidth - 10) {
-          scrollerRef.current.scrollTo({ left: 0, behavior: "smooth" });
-        } else {
-          scroll("right");
-        }
-      }
-    }, 4500);
-
-    return () => clearInterval(interval);
-  }, [activeModalProject]);
-
   return (
-    <section id="projects" className="bg-beige py-16 md:py-24 relative overflow-hidden">
-      <div className="container">
-        {/* Header & Controls */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end"
-        >
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-bronze">
-              Selected Portfolio
-            </span>
-            <h2 className="mt-3 font-serif text-3xl font-medium leading-tight text-charcoal sm:text-4xl md:text-5xl">
-              Spaces we&apos;ve shaped with intention.
-            </h2>
+    <section
+      id="projects"
+      ref={sectionRef}
+      className={cn(
+        "relative bg-beige",
+        filteredProjects.length > 2 ? "h-[280vh] md:h-[320vh]" : "h-[180vh]"
+      )}
+    >
+      <div className="sticky top-0 h-screen flex flex-col justify-between overflow-hidden py-8 md:py-12">
+        <div className="container relative z-10">
+          {/* Header & Controls */}
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-bronze">
+                Selected Portfolio
+              </span>
+              <h2 className="mt-3 font-serif text-3xl font-medium leading-tight text-charcoal sm:text-4xl md:text-5xl">
+                Spaces we&apos;ve shaped with intention.
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span className="hidden sm:inline-block text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-charcoal/60">
+                Scroll to explore
+              </span>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  aria-label="Scroll projects left"
+                  onClick={() => scrollByStep("left")}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-charcoal/20 text-charcoal transition-all hover:bg-bronze hover:border-bronze hover:text-beige"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Scroll projects right"
+                  onClick={() => scrollByStep("right")}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-charcoal/20 text-charcoal transition-all hover:bg-bronze hover:border-bronze hover:text-beige"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="flex gap-3">
-            <button
-              type="button"
-              aria-label="Scroll projects left"
-              onClick={() => scroll("left")}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-charcoal/20 text-charcoal transition-all hover:bg-bronze hover:border-bronze hover:text-beige"
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              aria-label="Scroll projects right"
-              onClick={() => scroll("right")}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-charcoal/20 text-charcoal transition-all hover:bg-bronze hover:border-bronze hover:text-beige"
-            >
-              <ArrowRight className="h-4 w-4" />
-            </button>
+          {/* Category Filter Tabs */}
+          <div className="mt-6 flex flex-wrap gap-2 border-b border-charcoal/15 pb-4">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={cn(
+                  "px-4 py-1.5 text-xs font-medium uppercase tracking-[0.15em] transition-all duration-300",
+                  selectedCategory === cat
+                    ? "bg-charcoal text-beige shadow-md"
+                    : "bg-cream/60 text-charcoal/70 hover:bg-beige hover:text-charcoal border border-charcoal/10"
+                )}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
-        </motion.div>
-
-        {/* Category Filter Tabs */}
-        <div className="mt-8 flex flex-wrap gap-2 border-b border-charcoal/15 pb-4">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={cn(
-                "px-5 py-2 text-xs font-medium uppercase tracking-[0.15em] transition-all duration-300",
-                selectedCategory === cat
-                  ? "bg-charcoal text-beige shadow-md"
-                  : "bg-cream/60 text-charcoal/70 hover:bg-beige hover:text-charcoal border border-charcoal/10"
-              )}
-            >
-              {cat}
-            </button>
-          ))}
         </div>
 
-        {/* Projects Horizontal Carousel */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          ref={scrollerRef}
-          className="scrollbar-hide mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6"
-        >
-          {filteredProjects.map((project) => (
-            <ThreeDTiltCard
-              key={project.id}
-              className="w-[80%] flex-none snap-start sm:w-[42%] lg:w-[30%]"
-              tiltIntensity={12}
-            >
-              <div
-                onClick={() => setActiveModalProject(project)}
-                className="group relative aspect-[3/4] w-full h-full overflow-hidden rounded-none shadow-xl cursor-pointer"
-              >
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 42vw, 80vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-espresso/85 via-espresso/20 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-95" />
-                
-                <div className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-beige/20 backdrop-blur-md text-beige opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <Maximize2 className="h-4 w-4" />
-                </div>
-
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <span className="inline-block bg-bronze/90 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-beige">
-                    {project.category}
-                  </span>
-                  <p className="mt-2 font-serif text-2xl text-beige font-medium">
-                    {project.title}
-                  </p>
-                  <p className="mt-1 text-xs text-beige/70 font-light flex items-center gap-1">
-                    <MapPin className="h-3 w-3 text-bronze" />
-                    {project.location} • {project.year}
-                  </p>
-                </div>
-              </div>
-            </ThreeDTiltCard>
-          ))}
-        </motion.div>
-
-        <div className="mt-14 text-center">
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-3 bg-charcoal text-beige px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-bronze shadow-md"
+        {/* Horizontal Moving Scrub Track */}
+        <div className="relative w-full my-auto overflow-hidden py-4">
+          <motion.div
+            ref={trackRef}
+            style={{ x }}
+            className="flex gap-6 sm:gap-8 items-center pl-6 sm:pl-12 lg:pl-20 pr-12 w-max"
           >
-            View Full Portfolio &amp; Case Studies
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+            {filteredProjects.map((project, idx) => (
+              <ThreeDTiltCard
+                key={project.id}
+                className="w-[280px] sm:w-[360px] md:w-[420px] lg:w-[460px] shrink-0"
+                tiltIntensity={10}
+              >
+                <div
+                  onClick={() => setActiveModalProject(project)}
+                  className="group relative aspect-[3/4] w-full overflow-hidden rounded-none shadow-xl cursor-pointer bg-charcoal"
+                >
+                  {/* Floating Luxury Watermark Number */}
+                  <span className="absolute -top-6 -left-2 z-10 font-serif text-8xl md:text-9xl font-light text-beige/30 select-none pointer-events-none drop-shadow-sm">
+                    0{idx + 1}
+                  </span>
+
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 42vw, 80vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/30 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-95" />
+
+                  <div className="absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-beige/20 backdrop-blur-md text-beige opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <Maximize2 className="h-4 w-4" />
+                  </div>
+
+                  <div className="absolute bottom-0 left-0 right-0 z-20 p-6">
+                    <span className="inline-block bg-bronze/90 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-beige shadow-sm">
+                      {project.category}
+                    </span>
+                    <p className="mt-2 font-serif text-2xl sm:text-3xl text-beige font-medium">
+                      {project.title}
+                    </p>
+                    <p className="mt-1 text-xs text-beige/80 font-light flex items-center gap-1.5">
+                      <MapPin className="h-3 w-3 text-bronze" />
+                      {project.location} • {project.year}
+                    </p>
+                  </div>
+                </div>
+              </ThreeDTiltCard>
+            ))}
+
+            {/* End CTA Card in the Track */}
+            <div className="w-[280px] sm:w-[340px] md:w-[380px] shrink-0 aspect-[3/4] bg-cream border border-charcoal/15 p-8 flex flex-col justify-between shadow-xl">
+              <div>
+                <span className="text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-bronze">
+                  The Archive
+                </span>
+                <h3 className="mt-4 font-serif text-2xl sm:text-3xl font-medium text-charcoal leading-tight">
+                  Discover All Completed Works
+                </h3>
+                <p className="mt-4 text-xs sm:text-sm text-charcoal/70 leading-relaxed font-light">
+                  From coastal retreats to private urban penthouses, explore our full spatial design repertoire.
+                </p>
+              </div>
+
+              <div>
+                <Link
+                  href="/projects"
+                  className="inline-flex items-center gap-3 bg-charcoal text-beige px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-bronze shadow-md w-full justify-center"
+                >
+                  View All Works
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Bottom Scroll Progress Bar & Counter */}
+        <div className="container relative z-10 pt-2 border-t border-charcoal/10 flex items-center justify-between gap-6">
+          <div className="flex items-center gap-3 text-xs text-charcoal/60 font-medium uppercase tracking-[0.2em]">
+            <span>01</span>
+            <div className="w-28 sm:w-48 h-[2px] bg-charcoal/10 rounded-full overflow-hidden">
+              <motion.div
+                style={{ scaleX: scrollYProgress }}
+                className="h-full w-full bg-bronze origin-left"
+              />
+            </div>
+            <span>0{filteredProjects.length}</span>
+          </div>
+
+          <div className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.2em] text-charcoal/50">
+            <span>Scroll vertically to explore</span>
+            <span className="text-bronze font-bold">→</span>
+          </div>
         </div>
       </div>
 

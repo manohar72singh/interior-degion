@@ -53,9 +53,9 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* Editorial Gradients */}
-      <div className="absolute inset-0 z-0 bg-espresso/60" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-espresso via-espresso/30 to-espresso/60" />
+      {/* Editorial Luminous Gradients */}
+      <div className="absolute inset-0 z-0 bg-charcoal/25" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-t from-charcoal/75 via-transparent to-charcoal/40" />
 
       <motion.div
         style={{ y: textY, opacity: textOpacity }}

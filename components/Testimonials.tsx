@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 const PRESS = [
@@ -38,12 +38,22 @@ const REVIEWS = [
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto glide reviews every 7 seconds when not hovered
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setCurrent((c) => (c === REVIEWS.length - 1 ? 0 : c + 1));
+    }, 7000);
+    return () => clearInterval(interval);
+  }, [isPaused]);
 
   const prev = () => setCurrent((c) => (c === 0 ? REVIEWS.length - 1 : c - 1));
   const next = () => setCurrent((c) => (c === REVIEWS.length - 1 ? 0 : c + 1));
 
   return (
-    <section className="bg-beige py-16 md:py-24 relative overflow-hidden border-t border-charcoal/10">
+    <section className="bg-beige py-20 md:py-28 relative overflow-hidden border-t border-charcoal/10">
       <div className="container relative z-10">
         {/* Press Badges Bar */}
         <div className="border-b border-charcoal/15 pb-12 text-center">
@@ -54,7 +64,7 @@ export default function Testimonials() {
             {PRESS.map((press) => (
               <span
                 key={press}
-                className="font-serif text-xs sm:text-sm font-semibold tracking-[0.25em] text-charcoal/80 hover:text-bronze transition-colors cursor-default"
+                className="font-serif text-xs sm:text-sm font-semibold tracking-[0.25em] text-charcoal/80 hover:text-bronze transition-colors duration-300 cursor-default"
               >
                 {press}
               </span>
@@ -62,67 +72,77 @@ export default function Testimonials() {
           </div>
         </div>
 
-        {/* Client Testimonial Carousel */}
-        <div className="mt-16 max-w-4xl mx-auto text-center">
+        {/* Client Testimonial Carousel with AnimatePresence & Pause on Hover */}
+        <div
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="mt-16 max-w-4xl mx-auto text-center"
+        >
           <div className="flex justify-center mb-6 text-bronze">
-            <Quote className="h-12 w-12 opacity-40 stroke-[1.5]" />
+            <Quote className="h-12 w-12 opacity-35 stroke-[1.5]" />
           </div>
 
-          <motion.div
-            key={current}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.6 }}
-            className="px-4"
-          >
-            <div className="flex justify-center gap-1 mb-6 text-bronze">
-              {[...Array(REVIEWS[current].rating)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-current" />
-              ))}
-            </div>
+          <div className="min-h-[220px] flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -18 }}
+                transition={{ duration: 0.55, ease: [0.215, 0.61, 0.355, 1] }}
+                className="px-4"
+              >
+                <div className="flex justify-center gap-1.5 mb-6 text-bronze">
+                  {[...Array(REVIEWS[current].rating)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-current drop-shadow-sm" />
+                  ))}
+                </div>
 
-            <p className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal leading-relaxed text-charcoal italic">
-              &ldquo;{REVIEWS[current].quote}&rdquo;
-            </p>
+                <p className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal leading-relaxed text-charcoal italic max-w-3xl mx-auto">
+                  &ldquo;{REVIEWS[current].quote}&rdquo;
+                </p>
 
-            <div className="mt-8">
-              <p className="font-serif text-lg font-medium text-charcoal">
-                {REVIEWS[current].author}
-              </p>
-              <p className="text-xs uppercase tracking-[0.2em] text-bronze mt-1">
-                {REVIEWS[current].location}
-              </p>
-            </div>
-          </motion.div>
+                <div className="mt-8">
+                  <p className="font-serif text-lg font-medium text-charcoal">
+                    {REVIEWS[current].author}
+                  </p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-bronze mt-1 font-semibold">
+                    {REVIEWS[current].location}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-          {/* Controls */}
-          <div className="mt-10 flex items-center justify-center gap-4">
+          {/* Controls & Animated Indicator */}
+          <div className="mt-12 flex items-center justify-center gap-5">
             <button
               onClick={prev}
               aria-label="Previous review"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-charcoal/20 text-charcoal hover:bg-bronze hover:border-bronze hover:text-beige transition-colors"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-charcoal/20 text-charcoal hover:bg-bronze hover:border-bronze hover:text-beige transition-all duration-300 shadow-sm"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4" />
             </button>
-            <div className="flex gap-2">
+
+            <div className="flex items-center gap-2">
               {REVIEWS.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrent(idx)}
-                  className={`h-2 rounded-full transition-all ${
-                    idx === current ? "w-8 bg-bronze" : "w-2 bg-charcoal/30"
+                  className={`h-2 rounded-full transition-all duration-500 ${
+                    idx === current ? "w-8 bg-bronze" : "w-2 bg-charcoal/25 hover:bg-charcoal/50"
                   }`}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
               ))}
             </div>
+
             <button
               onClick={next}
               aria-label="Next review"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-charcoal/20 text-charcoal hover:bg-bronze hover:border-bronze hover:text-beige transition-colors"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-charcoal/20 text-charcoal hover:bg-bronze hover:border-bronze hover:text-beige transition-all duration-300 shadow-sm"
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4" />
             </button>
           </div>
         </div>
