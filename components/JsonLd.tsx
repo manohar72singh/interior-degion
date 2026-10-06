@@ -7,7 +7,7 @@ export default function JsonLd() {
         "@id": "https://housenandco.com/#organization",
         "name": "Housen & Co.",
         "url": "https://housenandco.com",
-        "logo": "https://housenandco.com/images/logo.jpeg",
+        "logo": "https://housenandco.com/images/logo.png",
         "image": "https://housenandco.com/images/hero.jpg",
         "description": "Housen & Co. is a luxury interior design and architecture studio specializing in high-end private residences, coastal villas, and bespoke hospitality spaces.",
         "priceRange": "$$$$",

@@ -5,7 +5,7 @@ import path from "path";
 // Logo is embedded via a Content-ID attachment so it renders reliably
 // across email clients (Outlook strips/blocks base64 <img> data URIs).
 const LOGO_CID = "housenandco-logo";
-const logoPath = path.join(process.cwd(), "public", "images", "logo.jpeg");
+const logoPath = path.join(process.cwd(), "public", "images", "logo.png");
 
 // ─── Brand HTML Email Template Helper ──────────────────────────────────────
 function ownerEmailHtml({
@@ -51,20 +51,20 @@ function ownerEmailHtml({
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="padding:10px 0;">
-                    <div style="font-size:10px;letter-spacing:0.2em;color:#1E2430;opacity:.5;text-transform:uppercase;margin-bottom:4px;">Name</div>
-                    <div style="font-size:16px;color:#1E2430;">${name}</div>
+                    <div style="font-size:10px;letter-spacing:0.2em;color:#171513;opacity:.5;text-transform:uppercase;margin-bottom:4px;">Name</div>
+                    <div style="font-size:16px;color:#171513;">${name}</div>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:10px 0;">
-                    <div style="font-size:10px;letter-spacing:0.2em;color:#1E2430;opacity:.5;text-transform:uppercase;margin-bottom:4px;">Email</div>
-                    <div style="font-size:16px;color:#1E2430;"><a href="mailto:${email}" style="color:#A67C3D;text-decoration:none;">${email}</a></div>
+                    <div style="font-size:10px;letter-spacing:0.2em;color:#171513;opacity:.5;text-transform:uppercase;margin-bottom:4px;">Email</div>
+                    <div style="font-size:16px;color:#171513;"><a href="mailto:${email}" style="color:#A67C3D;text-decoration:none;">${email}</a></div>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:10px 0;">
-                    <div style="font-size:10px;letter-spacing:0.2em;color:#1E2430;opacity:.5;text-transform:uppercase;margin-bottom:8px;">Message</div>
-                    <div style="font-size:15px;color:#1E2430;line-height:1.8;background:#E5DFD3;padding:18px;border-radius:4px;">${message.replace(/\n/g, "<br/>")}</div>
+                    <div style="font-size:10px;letter-spacing:0.2em;color:#171513;opacity:.5;text-transform:uppercase;margin-bottom:8px;">Message</div>
+                    <div style="font-size:15px;color:#171513;line-height:1.8;background:#E5DFD3;padding:18px;border-radius:4px;">${message.replace(/\n/g, "<br/>")}</div>
                   </td>
                 </tr>
               </table>
@@ -110,17 +110,17 @@ function clientAutoReplyHtml({ name }: { name: string }) {
           <tr>
             <td style="padding:44px 48px 0 48px;text-align:center;">
               <div style="font-size:10px;letter-spacing:0.3em;color:#A67C3D;text-transform:uppercase;margin-bottom:16px;">Thank You</div>
-              <div style="font-family:'Georgia',serif;font-size:28px;color:#1E2430;font-weight:400;line-height:1.3;">Dear ${name},</div>
+              <div style="font-family:'Georgia',serif;font-size:28px;color:#171513;font-weight:400;line-height:1.3;">Dear ${name},</div>
             </td>
           </tr>
           <!-- Body -->
           <tr>
             <td style="padding:24px 48px 36px 48px;text-align:center;">
               <hr style="border:none;border-top:1px solid #E5DFD3;margin:0 0 24px 0;" />
-              <p style="font-size:15px;color:#1E2430;line-height:1.9;margin:0 0 16px 0;opacity:.85;">
+              <p style="font-size:15px;color:#171513;line-height:1.9;margin:0 0 16px 0;opacity:.85;">
                 We have received your inquiry and are delighted by your interest in Housen &amp; Co.
               </p>
-              <p style="font-size:15px;color:#1E2430;line-height:1.9;margin:0 0 28px 0;opacity:.85;">
+              <p style="font-size:15px;color:#171513;line-height:1.9;margin:0 0 28px 0;opacity:.85;">
                 Our team will review your message and get back to you within <strong>two business days</strong> to schedule an introductory conversation about your project.
               </p>
               <div style="background:#3A322C;display:inline-block;padding:14px 36px;border-radius:2px;">
@@ -132,7 +132,7 @@ function clientAutoReplyHtml({ name }: { name: string }) {
           <tr>
             <td style="padding:0 48px 36px 48px;text-align:center;">
               <hr style="border:none;border-top:1px solid #E5DFD3;margin:24px 0;" />
-              <p style="font-family:'Georgia',serif;font-size:13px;font-style:italic;color:#1E2430;opacity:.5;margin:0;">
+              <p style="font-family:'Georgia',serif;font-size:13px;font-style:italic;color:#171513;opacity:.5;margin:0;">
                 &ldquo;Every considered space begins with a single conversation.&rdquo;
               </p>
             </td>
@@ -179,7 +179,7 @@ export async function POST(req: NextRequest) {
     });
 
     const logoAttachment = {
-      filename: "logo.jpeg",
+      filename: "logo.png",
       path: logoPath,
       cid: LOGO_CID,
     };

@@ -56,6 +56,23 @@ export default function Philosophy() {
               considered, tactile approach to materials — resulting in homes
               that feel inevitable, never imposed.
             </p>
+
+            {/* Quick Metrics */}
+            <div className="mt-8 grid grid-cols-3 gap-4 border-y border-charcoal/10 py-6">
+              <div>
+                <span className="font-serif text-2xl font-medium text-bronze sm:text-3xl">150+</span>
+                <p className="mt-1 text-[0.65rem] uppercase tracking-wider text-charcoal/60">Spaces</p>
+              </div>
+              <div>
+                <span className="font-serif text-2xl font-medium text-bronze sm:text-3xl">12+</span>
+                <p className="mt-1 text-[0.65rem] uppercase tracking-wider text-charcoal/60">Awards</p>
+              </div>
+              <div>
+                <span className="font-serif text-2xl font-medium text-bronze sm:text-3xl">100%</span>
+                <p className="mt-1 text-[0.65rem] uppercase tracking-wider text-charcoal/60">Bespoke</p>
+              </div>
+            </div>
+
             <div className="mt-8 flex flex-wrap items-center gap-6">
               <Link
                 href="/about"
@@ -84,7 +101,7 @@ export default function Philosophy() {
             <motion.div
               whileHover={{ scale: 1.04 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
-              className="h-full w-full"
+              className="relative h-full w-full"
             >
               <Image
                 src="/images/philosophy.jpg"

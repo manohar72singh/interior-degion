@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { Sun, Sunset, Moon, Sparkles, Compass, Eye, Check } from "lucide-react";
+import { Sun, Sunset, Moon, Compass, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type LightingMood = "morning" | "golden" | "twilight";
@@ -149,7 +149,7 @@ export default function InteractiveRoom3D() {
                   : "text-beige/60 hover:text-beige hover:bg-white/5"
               )}
             >
-              <Moon className="h-3.5 w-3.5 text-blue-300" />
+              <Moon className="h-3.5 w-3.5 text-beige/80" />
               Twilight
             </button>
           </div>
@@ -190,17 +190,17 @@ export default function InteractiveRoom3D() {
             <div
               className={cn(
                 "absolute inset-0 transition-all duration-700 pointer-events-none mix-blend-color-burn",
-                mood === "morning" && "bg-sky-950/30 opacity-60",
+                mood === "morning" && "bg-amber-950/20 opacity-50",
                 mood === "golden" && "bg-amber-900/40 opacity-70",
-                mood === "twilight" && "bg-indigo-950/60 opacity-80"
+                mood === "twilight" && "bg-charcoal/70 opacity-80"
               )}
             />
             <div
               className={cn(
                 "absolute inset-0 transition-all duration-700 pointer-events-none mix-blend-overlay",
-                mood === "morning" && "bg-gradient-to-tr from-transparent via-sky-200/20 to-sky-100/40",
+                mood === "morning" && "bg-gradient-to-tr from-transparent via-amber-100/20 to-amber-50/30",
                 mood === "golden" && "bg-gradient-to-tr from-transparent via-amber-500/25 to-orange-400/40",
-                mood === "twilight" && "bg-gradient-to-t from-espresso via-indigo-900/30 to-blue-950/60"
+                mood === "twilight" && "bg-gradient-to-t from-espresso via-charcoal/40 to-espresso/70"
               )}
             />
 

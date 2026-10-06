@@ -92,8 +92,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth ${playfair.variable} ${inter.variable}`}>
-      <body className="bg-beige font-sans text-charcoal antialiased flex flex-col min-h-screen">
+    <html lang="en" className={`scroll-smooth ${playfair.variable} ${inter.variable}`} suppressHydrationWarning>
+      <body className="bg-beige font-sans text-charcoal antialiased flex flex-col min-h-screen" suppressHydrationWarning>
         <JsonLd />
         <SmoothScroll>
           <Navbar />

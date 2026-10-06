@@ -16,13 +16,14 @@ export default function Logo({
 }: LogoProps) {
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <div className={cn("relative h-8 w-8 shrink-0 rounded-sm overflow-hidden", markClassName)}>
+      <div className={cn("relative h-8 w-8 shrink-0", markClassName)}>
         <Image
-          src="/images/logo.jpeg"
-          alt="Company Logo"
+          src="/images/logo.png"
+          alt="Housen & Co. Logo"
           fill
           sizes="100px"
           className="object-contain"
+          priority
         />
       </div>
       <span

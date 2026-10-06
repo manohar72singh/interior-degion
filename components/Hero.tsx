@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, Sparkles, Award } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const titleVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -61,20 +61,6 @@ export default function Hero() {
         style={{ y: textY, opacity: textOpacity }}
         className="relative z-10 container flex flex-col items-center px-6 text-center -translate-y-8 sm:-translate-y-12 md:-translate-y-16"
       >
-        {/* Press / Editorial Badge */}
-        <motion.div
-          custom={0}
-          initial="hidden"
-          animate="visible"
-          variants={titleVariants}
-          className="mb-4 inline-flex items-center gap-2 rounded-full bg-beige/10 px-4 py-1.5 backdrop-blur-md border border-beige/20 text-beige shadow-lg"
-        >
-          <Sparkles className="h-3.5 w-3.5 text-bronze" />
-          <span className="text-[0.65rem] font-medium uppercase tracking-[0.3em] text-beige/90">
-            Featured in Architectural Digest &amp; Elle Decor
-          </span>
-        </motion.div>
-        
         {/* Main Brand Title */}
         <motion.h1
           custom={1}
@@ -122,19 +108,24 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Floating Studio Metric Badge */}
+
+      {/* Rotating Circular Stamp Badge (SS Interiors Signature Style) */}
       <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 1 }}
-        className="hidden md:flex absolute bottom-12 left-12 z-10 items-center gap-4 bg-beige/15 p-4 backdrop-blur-md border border-beige/20 rounded-none text-beige shadow-2xl"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.2, delay: 0.8 }}
+        className="hidden md:block absolute bottom-12 right-12 z-10"
       >
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-bronze/30 text-bronze">
-          <Award className="h-5 w-5" />
-        </div>
-        <div className="text-left">
-          <p className="font-serif text-lg font-medium text-beige">150+ Spaces Crafted</p>
-          <p className="text-[0.6rem] uppercase tracking-[0.2em] text-beige/70">Wave City · Delhi NCR</p>
+        <div className="relative h-28 w-28 flex items-center justify-center">
+          <svg viewBox="0 0 100 100" className="h-full w-full animate-spin-slow text-bronze">
+            <defs>
+              <path id="stamp-circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
+            </defs>
+            <text className="text-[8.5px] uppercase tracking-[0.24em] fill-current font-medium">
+              <textPath href="#stamp-circle">TIMELESS • BESPOKE • ARCHITECTURAL •</textPath>
+            </text>
+          </svg>
+          <span className="absolute text-lg text-bronze">✦</span>
         </div>
       </motion.div>
 

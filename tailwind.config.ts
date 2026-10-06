@@ -45,7 +45,7 @@ const config: Config = {
         // Housen & Co. brand palette
         beige: "#E5DFD3",
         espresso: "#3A322C",
-        charcoal: "#1E2430",
+        charcoal: "#171513",
         bronze: "#A67C3D",
         cream: "#FAF8F4",
       },
@@ -72,10 +72,20 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        marquee: "marquee 32s linear infinite",
+        "spin-slow": "spin-slow 22s linear infinite",
       },
     },
   },

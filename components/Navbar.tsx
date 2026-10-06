@@ -34,14 +34,14 @@ export default function Navbar() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-beige/95 shadow-md backdrop-blur-md border-b border-charcoal/10"
+          ? "bg-espresso/95 shadow-lg backdrop-blur-md border-b border-beige/10"
           : "bg-gradient-to-b from-espresso/80 via-espresso/40 to-transparent"
       )}
     >
       <nav className="container flex h-20 items-center justify-between">
         <Link href="/" aria-label="Housen & Co. home">
           <Logo
-            light={!scrolled}
+            light
             markClassName="h-7 w-7 md:h-8 md:w-8"
             wordmarkClassName="text-xs md:text-sm"
           />
@@ -61,13 +61,9 @@ export default function Navbar() {
                     href={link.href}
                     className={cn(
                       "group relative text-xs font-medium uppercase tracking-[0.16em] transition-colors py-1",
-                      scrolled
-                        ? isActive
-                          ? "text-bronze font-semibold"
-                          : "text-charcoal hover:text-bronze"
-                        : isActive
+                      isActive
                         ? "text-bronze font-semibold drop-shadow-sm"
-                        : "text-beige/90 hover:text-beige"
+                        : "text-beige/85 hover:text-beige"
                     )}
                   >
                     {link.label}
@@ -88,7 +84,7 @@ export default function Navbar() {
             className={cn(
               "inline-flex items-center gap-2 rounded-none px-5 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] transition-all duration-300 border shadow-sm",
               scrolled
-                ? "border-bronze bg-bronze text-beige hover:bg-charcoal hover:border-charcoal hover:text-beige"
+                ? "border-bronze bg-bronze/90 text-beige hover:bg-bronze hover:scale-[1.02]"
                 : "border-beige/40 bg-beige/10 text-beige backdrop-blur-sm hover:bg-beige hover:text-charcoal"
             )}
           >
@@ -99,15 +95,15 @@ export default function Navbar() {
 
         <button
           type="button"
-          className="lg:hidden"
+          className="lg:hidden text-beige"
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((v) => !v)}
         >
           {menuOpen ? (
-            <X className={cn("h-6 w-6", scrolled ? "text-charcoal" : "text-beige")} />
+            <X className="h-6 w-6 text-beige" />
           ) : (
-            <Menu className={cn("h-6 w-6", scrolled ? "text-charcoal" : "text-beige")} />
+            <Menu className="h-6 w-6 text-beige" />
           )}
         </button>
       </nav>
